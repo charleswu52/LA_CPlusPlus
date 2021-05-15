@@ -1,4 +1,5 @@
 #include <iostream>
+#include <queue>
 #include "LevenshteinNFA.h"
 
 
@@ -66,6 +67,7 @@ namespace LevenshteinAutomata
     std::list<int> LevenshteinNFA::Move(std::list<int> states, char inp)
     {
         std::list<int> result;
+        std::queue<int> tmp;
         bool needNormalLetter = false;
         bool findNormalLetter = false;
         if (inp != (char)LevenshteinNFA::Constants::Insertion &&
@@ -81,6 +83,17 @@ namespace LevenshteinAutomata
                 if (c== inp || c== (char)LevenshteinNFA::Constants::Insertion || c == (char)LevenshteinNFA::Constants::Deletion)
                 {
                     if (needNormalLetter && c == inp) findNormalLetter = true;
+                    result.push_back(j);
+                }
+            }
+        }
+        while(!tmp.empty()){
+            int now = tmp.front();
+            tmp.pop();
+            for(int j=0;j<size;j++){
+                char c = transTable->at((now * size) + j);
+                if (c == (char)LevenshteinNFA::Constants::Deletion){
+                    tmp.push(j);
                     result.push_back(j);
                 }
             }

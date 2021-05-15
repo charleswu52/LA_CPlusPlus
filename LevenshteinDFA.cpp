@@ -41,6 +41,7 @@ namespace LevenshteinAutomata
 
         while (unmarkedStates.size() != 0)
         {
+            bool tag=false;
             std::list<int> aState = unmarkedStates.front();
             unmarkedStates.pop_front();
 
@@ -57,6 +58,7 @@ namespace LevenshteinAutomata
                     }
                 }
             }
+            vector<pair<pair<int,char>,int>> vec_tmp;
 //            for each (char c in nfa->inputs)
             for  (char c : nfa->inputs)
             {
@@ -72,15 +74,30 @@ namespace LevenshteinAutomata
                 {
                     dfa->uniqueChars.emplace_back(c);
                     std::pair<int, char> transition = std::make_pair(dfaStateNum[aState],c);
-                    dfa->transTable->insert(std::pair<std::pair<int,char>,int>(transition,dfaStateNum[next]));
+                    vec_tmp.push_back(std::pair<std::pair<int,char>,int>(transition,dfaStateNum[next]));
+                   // dfa->transTable->insert(std::pair<std::pair<int,char>,int>(transition,dfaStateNum[next]));
                 }
                 else
                 {
                     auto it = dfa->defaultTrans->find(dfaStateNum[aState]);
+                    //TODO 数字 ascli值太大
                     if (it == dfa->defaultTrans->end())
                     {
                         dfa->defaultTrans->emplace(dfaStateNum[aState], dfaStateNum[next]);
+                        for(int i=0;i<vec_tmp.size();i++){
+                            if(!(vec_tmp[i].first.first == dfaStateNum[aState]&& vec_tmp[i].second == dfaStateNum[next] && !tag)){
+                                dfa->transTable->insert(std::pair<std::pair<int,char>,int>(vec_tmp[i].first,vec_tmp[i].second));
+                                tag=true;
+                            }
+                        }
                     }
+                }
+            }
+            if(!tag){
+                for(int i=0;i<vec_tmp.size();i++){
+                        dfa->transTable->insert(std::pair<std::pair<int,char>,int>(vec_tmp[i].first,vec_tmp[i].second));
+                        tag=true;
+
                 }
             }
         }

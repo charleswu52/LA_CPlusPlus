@@ -23,7 +23,7 @@ int main(int argc, char **argv)
     char line[256];
 
     trie.rootNode = getNode(' ', "");
-    file.open("E:\\WorkSpace\\Clion\\LA_C++\\wordList.txt");
+    file.open("../wordList.txt");
     cout << "Constructing Trie..."<< endl;
     timer = clock();
     /*Load in all resources*/
@@ -36,7 +36,7 @@ int main(int argc, char **argv)
     duration = (clock() - timer) / (double)CLOCKS_PER_SEC;
     cout << "Constructing Trie Complete! Time: " << duration << " Seconds" << endl;
     cout << "Levenshteins Distance: " << maxDist << endl;
-    file.open("E:\\WorkSpace\\Clion\\LA_C++\\wordsToTest.txt");
+    file.open("../wordsToTest.txt");
     //Search
     while (file.good())
     {

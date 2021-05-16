@@ -7,20 +7,8 @@
 namespace la
 {
     LevenshteinDFA::LevenshteinDFA()
-    {
-        finalStates = new std::list<int>();
-        defaultTrans = new std::map<int, int>();
-        transTable = new std::map<std::pair<int, char>, int>();
-        start = START;
-    }
+        : _start{START} {}
 
-
-    LevenshteinDFA::~LevenshteinDFA()
-    {
-        free(defaultTrans);
-        free(finalStates);
-        free(transTable);
-    }
     LevenshteinDFA LevenshteinDFA::SubsetConstruct(const LevenshteinNFA &nfa)
     {
         LevenshteinDFA dfa{};
@@ -56,7 +44,7 @@ namespace la
                 {
                     if (*it == *it2)
                     {
-                        dfa.finalStates->emplace_back(dfaStateNum[aState]);
+                        dfa._finalStates.emplace_back(dfaStateNum[aState]);
                     }
                 }
             }
@@ -74,22 +62,22 @@ namespace la
                 }
                 if (c != (char)LevenshteinNFA::Constants::Insertion && c != (char)LevenshteinNFA::Constants::Deletion)
                 {
-                    dfa.uniqueChars.emplace_back(c);
+                    dfa._uniqueChars.emplace_back(c);
                     std::pair<int, char> transition = std::make_pair(dfaStateNum[aState],c);
                     vec_tmp.push_back(std::pair<std::pair<int,char>,int>(transition,dfaStateNum[next]));
                    // dfa->transTable->insert(std::pair<std::pair<int,char>,int>(transition,dfaStateNum[next]));
                 }
                 else
                 {
-                    auto it = dfa.defaultTrans->find(dfaStateNum[aState]);
+                    auto it = dfa._defaultTrans.find(dfaStateNum[aState]);
                     //TODO 数字 ascli值太大
-                    if (it == dfa.defaultTrans->end())
+                    if (it == dfa._defaultTrans.end())
                     {
-                        dfa.defaultTrans->emplace(dfaStateNum[aState], dfaStateNum[next]);
+                        dfa._defaultTrans.emplace(dfaStateNum[aState], dfaStateNum[next]);
                         tag = true;
                         for(int i=0;i<vec_tmp.size();i++){
                             if(!(vec_tmp[i].first.first == dfaStateNum[aState]&& vec_tmp[i].second == dfaStateNum[next])){
-                                dfa.transTable->insert(std::pair<std::pair<int,char>,int>(vec_tmp[i].first,vec_tmp[i].second));
+                                dfa._transTable.insert(std::pair<std::pair<int,char>,int>(vec_tmp[i].first,vec_tmp[i].second));
                             }
 
                         }
@@ -104,18 +92,18 @@ namespace la
                 for(int i=0;i<vec_tmp.size();i++){
                     //printf("%d %d %d\n",vec_tmp[i].second,map_tmp[vec_tmp[i].second],vec_tmp.size());
                     if(map_tmp[vec_tmp[i].second]==1){
-                        dfa.transTable->insert(std::pair<std::pair<int,char>,int>(vec_tmp[i].first,vec_tmp[i].second));
+                        dfa._transTable.insert(std::pair<std::pair<int,char>,int>(vec_tmp[i].first,vec_tmp[i].second));
                     }
                     else{
-                        dfa.defaultTrans->emplace(vec_tmp[i].first.first,vec_tmp[i].second);
+                        dfa._defaultTrans.emplace(vec_tmp[i].first.first,vec_tmp[i].second);
                     }
                 }
             }
         }
-        dfa.finalStates->sort();
-        dfa.finalStates->unique();
-        dfa.uniqueChars.sort();
-        dfa.uniqueChars.unique();
+        dfa._finalStates.sort();
+        dfa._finalStates.unique();
+        dfa._uniqueChars.sort();
+        dfa._uniqueChars.unique();
         return dfa;
     }
     std::list<int> LevenshteinDFA::EpsilonClosure(const LevenshteinNFA &nfa, std::list<int> states)
@@ -157,16 +145,16 @@ namespace la
     void LevenshteinDFA::Search(const trie_tree &trie, int start, trie_node * node, std::list<std::string> &output)
     {
         /**/
-        if (std::find(finalStates->begin(), finalStates->end(), start) != finalStates->end() &&node->_is_end_word )
+        if (std::find(_finalStates.begin(), _finalStates.end(), start) != _finalStates.end() &&node->_is_end_word )
         {
             output.emplace_back(node->_value);
         }
         std::list<char> inputs;
-        for (std::list<char>::iterator it = uniqueChars.begin(); it != uniqueChars.end();++it)
+        for (std::list<char>::iterator it = _uniqueChars.begin(); it != _uniqueChars.end();++it)
         {
             std::pair<int, char> pair = std::make_pair(start, *it);
-            auto it2 = transTable->find(pair);
-            if (it2 != transTable->end())
+            auto it2 = _transTable.find(pair);
+            if (it2 != _transTable.end())
             {
                 inputs.emplace_back(*it);
                 for (int i = 0; i < trie_node::ALPHABET_SIZE; ++i)
@@ -175,13 +163,13 @@ namespace la
                         continue;
                     if (node->_children[i]->_key == *it)
                     {
-                        Search(trie, transTable->at(pair), node->_children[i], output);
+                        Search(trie, _transTable.at(pair), node->_children[i], output);
                     }
                 }
             }
         }
-        auto it = defaultTrans->find(start);
-        if (it != defaultTrans->end())
+        auto it = _defaultTrans.find(start);
+        if (it != _defaultTrans.end())
         {
             for (int i = 0; i < trie_node::ALPHABET_SIZE; ++i)
             {
@@ -196,7 +184,7 @@ namespace la
                 }
                 if (!found)
                 {
-                    Search(trie, defaultTrans->at(start), node->_children[i], output);
+                    Search(trie, _defaultTrans.at(start), node->_children[i], output);
                 }
             }
         }

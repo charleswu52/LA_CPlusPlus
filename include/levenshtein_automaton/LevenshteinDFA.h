@@ -13,14 +13,13 @@ namespace la
     {
     public:
         LevenshteinDFA();
-        ~LevenshteinDFA();
         static LevenshteinDFA SubsetConstruct(const LevenshteinNFA &nfa);
         static std::list<int> EpsilonClosure(const LevenshteinNFA &nfa, std::list<int> states);
-        int start;
-        std::list<int> *finalStates;
-        std::map<std::pair<int, char>, int> *transTable;
-        std::map<int, int> *defaultTrans;
-        std::list<char> uniqueChars;
+        int _start;
+        std::list<int> _finalStates;
+        std::map<std::pair<int, char>, int> _transTable;
+        std::map<int, int> _defaultTrans;
+        std::list<char> _uniqueChars;
         void Search(const trie_tree &trie, int start, trie_node* node, std::list<std::string> &output);
     };
 }

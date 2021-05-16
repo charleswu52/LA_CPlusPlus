@@ -9,9 +9,8 @@
 #include <fstream>
 #include <ctime>
 
-
 int la::START = 0;
-int main(int argc, char **argv)
+int main(int argc, char *argv[])
 {
     std::ifstream file;
     la::Trie trie;

@@ -60,7 +60,7 @@ namespace LevenshteinAutomata
                     }
                 }
             }
-            vector<pair<pair<int,char>,int>> vec_tmp;
+            std::vector<std::pair<std::pair<int,char>,int>> vec_tmp;
 //            for each (char c in nfa->inputs)
             for  (char c : nfa->inputs)
             {
@@ -154,7 +154,7 @@ namespace LevenshteinAutomata
         }
         return epsilonClosure;
     }
-    void LevenshteinDFA::Search(Trie * trie, int start, TrieNode * node, std::list<string> &output)
+    void LevenshteinDFA::Search(Trie * trie, int start, TrieNode * node, std::list<std::string> &output)
     {
         /**/
         if (std::find(finalStates->begin(), finalStates->end(), start) != finalStates->end() &&node->isEndWord )

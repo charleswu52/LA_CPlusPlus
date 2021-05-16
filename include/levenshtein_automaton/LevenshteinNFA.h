@@ -1,10 +1,9 @@
-#ifndef __LEVENSHTEINNFA_H_
-#define __LEVENSHTEINNFA_H_
+#pragma once
 
+#include <string>
+#include <vector>
 #include <list>
 #include <forward_list>
-#include <vector>
-#include "string"
 
 namespace LevenshteinAutomata
 {
@@ -34,4 +33,3 @@ namespace LevenshteinAutomata
         int size;
     };
 }
-#endif

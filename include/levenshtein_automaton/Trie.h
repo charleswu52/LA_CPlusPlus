@@ -1,9 +1,9 @@
-#ifndef __TRIE_H_
-#define __TRIE_H_
+#pragma once
+
 #include <string>
-using namespace std;
 
 const int ALPHABET_SIZE = 26;
+
 typedef struct TrieNode
 {
     struct TrieNode* children[ALPHABET_SIZE];
@@ -11,16 +11,16 @@ typedef struct TrieNode
     char key;
     std::string  value;
 }TrieNode;
+
 TrieNode *getNode(char key, std::string value);
+
 extern int START;
+
 class Trie
 {
 public:
     Trie();
     TrieNode* rootNode;
-    void Insert(string key);
-    bool Search(string key);
+    void Insert(std::string key);
+    bool Search(std::string key);
 };
-
-
-#endif

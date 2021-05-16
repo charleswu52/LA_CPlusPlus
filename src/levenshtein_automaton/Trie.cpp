@@ -18,7 +18,7 @@ Trie::Trie()
 {
 }
 
-void Trie::Insert(string key)
+void Trie::Insert(std::string key)
 {
     struct TrieNode *pCrawl = rootNode;
     std::string k = "";
@@ -37,7 +37,7 @@ void Trie::Insert(string key)
     pCrawl->isEndWord = true;
 }
 
-bool Trie::Search(string key)
+bool Trie::Search(std::string key)
 {
     struct TrieNode *pCrawl = rootNode;
 

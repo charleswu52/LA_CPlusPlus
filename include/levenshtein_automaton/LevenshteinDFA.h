@@ -1,10 +1,11 @@
-#ifndef __LEVENSHTEINDFA_H_
-#define __LEVENSHTEINDFA_H_
+#pragma once
+
+#include "Trie.h"
+#include "LevenshteinNFA.h"
 
 #include <list>
 #include <map>
-#include "LevenshteinNFA.h"
-#include "Trie.h"
+
 namespace LevenshteinAutomata
 {
     class LevenshteinDFA
@@ -19,7 +20,6 @@ namespace LevenshteinAutomata
         std::map<std::pair<int, char>, int> *transTable;
         std::map<int, int> *defaultTrans;
         std::list<char> uniqueChars;
-        void Search(Trie *trie, int start, TrieNode* node, std::list<string> &output);
+        void Search(Trie *trie, int start, TrieNode* node, std::list<std::string> &output);
     };
 }
-#endif

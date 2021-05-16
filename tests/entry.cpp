@@ -42,14 +42,14 @@ int main(int argc, char **argv)
     while (file.good())
     {
         file.getline(line, 256);
-        cout << "===================================================================" << endl;
-        cout << "Constructing Levenshteins Automata for word: " << line << endl;
+        std::cout << "===================================================================" << std::endl;
+        std::cout << "Constructing Levenshteins Automata for word: " << line << std::endl;
         timer = clock();
 
         nfa = LevenshteinAutomata::LevenshteinNFA::ConstructNFA(line, maxDist);
         dfa = LevenshteinAutomata::LevenshteinDFA::SubsetConstruct(nfa);
-        list<string> output;
-        cout << "Searching..." << endl;
+        std::list<std::string> output;
+        std::cout << "Searching..." << std::endl;
         dfa->Search(&trie, dfa->start, trie.rootNode, output);
         duration = (clock() - timer) / (double)CLOCKS_PER_SEC;
         totalTime += duration;

@@ -7,10 +7,12 @@
 #include <list>
 #include <iostream>
 #include <fstream>
-#include <ctime>
+#include <chrono>
 
 static const std::string documents_path{"../resources/wordList.txt"};
 static const std::string queries_path{"../resources/wordsToTest.txt"};
+
+static constexpr int maxDist = 2;
 
 std::vector<std::string>
 read_all_lines(const std::string &path)
@@ -27,49 +29,41 @@ read_all_lines(const std::string &path)
 int la::START = 0;
 int main(int argc, char *argv[])
 {
-    std::vector<std::string> documents{read_all_lines(documents_path)};
-    std::vector<std::string> queries{read_all_lines(queries_path)};
-
     la::Trie trie;
-    clock_t timer;
-    double duration = 0;
-    double totalTime = 0;
-    int maxDist = 2;
-
-    la::LevenshteinNFA *nfa;
-    la::LevenshteinDFA *dfa;
     trie.rootNode = la::getNode(' ', "");
-    std::cout << "Constructing Trie..." << std::endl;
-    timer = clock();
+    auto documents{read_all_lines(documents_path)};
+    std::cout << "Constructing Trie...\n";
+    auto timer{std::chrono::high_resolution_clock::now()};
     /*Load in all resources*/
     for (auto &&document : documents)
         trie.Insert(document);
-    duration = (clock() - timer) / (double)CLOCKS_PER_SEC;
-    std::cout << "Constructing Trie Complete! Time: " << duration << " Seconds" << std::endl;
-    std::cout << "Levenshteins Distance: " << maxDist << std::endl;
+    auto duration{std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - timer).count()};
+    std::cout << "Constructing Trie Complete! Time: " << duration << " Microseconds\n";
+
     //Search
+    auto queries{read_all_lines(queries_path)};
+    decltype(duration) totalTime{0};
+    std::cout << "Levenshteins Distance: " << maxDist << '\n';
     for (auto &&query : queries)
     {
-        std::cout << "===================================================================" << std::endl;
-        std::cout << "Constructing Levenshteins Automata for word: " << query << std::endl;
-        timer = clock();
+        std::cout << "===================================================================\n";
+        std::cout << "Constructing Levenshteins Automata for word: " << query << '\n';
+        timer = std::chrono::high_resolution_clock::now();
 
-        nfa = la::LevenshteinNFA::ConstructNFA(query, maxDist);
-        dfa = la::LevenshteinDFA::SubsetConstruct(nfa);
+        std::unique_ptr<la::LevenshteinNFA> nfa{la::LevenshteinNFA::ConstructNFA(query, maxDist)};
+        std::unique_ptr<la::LevenshteinDFA> dfa{la::LevenshteinDFA::SubsetConstruct(nfa.get())};
         std::list<std::string> output;
-        std::cout << "Searching..." << std::endl;
+        std::cout << "Searching...\n";
         dfa->Search(&trie, dfa->start, trie.rootNode, output);
-        duration = (clock() - timer) / (double)CLOCKS_PER_SEC;
+        duration = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - timer).count();
         totalTime += duration;
-        std::cout << "Construction and Search complete! Time: " << duration << " Seconds" << std::endl;
-        /*for(auto it = output.begin();it!=output.end();it++){
-            cout<<*it<<endl;
-        }*/
-        std::cout << "Number of hits found: " << output.size() << std::endl;
+        std::cout << "Construction and Search complete! Time: " << duration << " Microseconds\n";
+        /*
+        for(const auto &word : output)
+            std::cout<< word << '\n';
+        */
+        std::cout << "Number of hits found: " << output.size() << '\n';
     }
-    std::cout << "Total time: " << totalTime << " Seconds.." << std::endl;
-    //Clean Up
-    delete nfa;
-    delete dfa;
+    std::cout << "Total time: " << totalTime << " Microseconds..\n";
     return 0;
 }

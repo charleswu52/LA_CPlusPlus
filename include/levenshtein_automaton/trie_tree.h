@@ -19,10 +19,10 @@ namespace la
 
     extern int START;
 
-    class Trie
+    class trie_tree
     {
     public:
-        Trie();
+        trie_tree();
         TrieNode *rootNode;
         void insert(std::string &&key);
         bool Search(std::string key);

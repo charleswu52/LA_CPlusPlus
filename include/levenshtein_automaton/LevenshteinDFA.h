@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Trie.h"
+#include "trie_tree.h"
 #include "LevenshteinNFA.h"
 
 #include <list>
@@ -20,6 +20,6 @@ namespace la
         std::map<std::pair<int, char>, int> *transTable;
         std::map<int, int> *defaultTrans;
         std::list<char> uniqueChars;
-        void Search(Trie *trie, int start, TrieNode* node, std::list<std::string> &output);
+        void Search(trie_tree *trie, int start, TrieNode* node, std::list<std::string> &output);
     };
 }

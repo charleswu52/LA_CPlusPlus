@@ -1,4 +1,4 @@
-#include "levenshtein_automaton/Trie.h"
+#include "levenshtein_automaton/trie_tree.h"
 
 namespace la
 {
@@ -8,11 +8,11 @@ namespace la
         is_end_word{false},
         children{nullptr} {}
 
-    Trie::Trie()
+    trie_tree::trie_tree()
     {
     }
 
-    void Trie::insert(std::string &&key)
+    void trie_tree::insert(std::string &&key)
     {
         TrieNode *pCrawl = rootNode;
         std::string k = "";
@@ -31,7 +31,7 @@ namespace la
         pCrawl->is_end_word = true;
     }
 
-    bool Trie::Search(std::string key)
+    bool trie_tree::Search(std::string key)
     {
         struct TrieNode *pCrawl = rootNode;
 

@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <set>
 #include "levenshtein_automaton/LevenshteinDFA.h"
-#include "levenshtein_automaton/Trie.h"
+#include "levenshtein_automaton/trie_tree.h"
 
 namespace la
 {
@@ -154,7 +154,7 @@ namespace la
         }
         return epsilonClosure;
     }
-    void LevenshteinDFA::Search(Trie * trie, int start, TrieNode * node, std::list<std::string> &output)
+    void LevenshteinDFA::Search(trie_tree * trie, int start, TrieNode * node, std::list<std::string> &output)
     {
         /**/
         if (std::find(finalStates->begin(), finalStates->end(), start) != finalStates->end() &&node->is_end_word )

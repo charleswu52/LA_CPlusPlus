@@ -15,7 +15,7 @@ namespace la
         auto cur_node{_root_node};
         for (decltype(key.size()) i{0}; i < key.size(); ++i)
         {
-            const auto ci{key[i] - 'a'};
+            const auto ci{trie_node::convertIndex(key[i])};
             if (cur_node->_children[ci] == nullptr)
                 cur_node->_children[ci] = new trie_node{key[i], key.substr(0, i + 1)};
             cur_node = cur_node->_children[ci];
@@ -28,7 +28,7 @@ namespace la
         auto cur_node{_root_node};
         for (decltype(key.size()) i{0}; i < key.size(); ++i)
         {
-            const auto ci{key[i] - 'a'};
+            const auto ci{trie_node::convertIndex(key[i])};
             if (cur_node->_children[ci] == nullptr)
                 return false;
             cur_node = cur_node->_children[ci];

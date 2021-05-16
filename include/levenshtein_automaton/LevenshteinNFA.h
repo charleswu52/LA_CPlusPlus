@@ -16,7 +16,7 @@ namespace la
         //LevenshteinNFA &operator=(LevenshteinNFA &&) = delete;
 
     public:
-        LevenshteinNFA(int size, int state, std::list<int> finalStates);
+        LevenshteinNFA(std::size_t size, int state, std::list<int> &&finalStates);
         ~LevenshteinNFA() = default;
 
         enum Constants
@@ -34,6 +34,6 @@ namespace la
         std::list<int> finalStates;
         std::forward_list<char> inputs;
         std::vector<char> transTable;
-        int size;
+        std::size_t size;
     };
 }

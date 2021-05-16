@@ -4,10 +4,10 @@
 
 namespace la
 {
-    LevenshteinNFA::LevenshteinNFA(int _size, int _initialstate, std::list<int> _finalStates)
+    LevenshteinNFA::LevenshteinNFA(std::size_t _size, int _initialstate, std::list<int> &&_finalStates)
         : initialState{_initialstate},
           size{_size},
-          finalStates{_finalStates},
+          finalStates{std::move(_finalStates)},
           transTable(_size * _size, '\0') {}
 
     LevenshteinNFA LevenshteinNFA::ConstructNFA(const std::string &str, int maxDist)
@@ -16,12 +16,12 @@ namespace la
         auto height{maxDist + 1};
         auto size{width * height};
         std::list<int> finalStates;
-        for (int i = 1; i <= height; ++i)
-            finalStates.push_back(i * width - 1);
-        LevenshteinNFA nfa(size, 0, finalStates);
-        for (int e = 0; e < height; ++e)
+        for (decltype(height) i = 1; i <= height; ++i)
+            finalStates.emplace_back(i * width - 1);
+        LevenshteinNFA nfa{size, 0, std::move(finalStates)};
+        for (decltype(height) e = 0; e < height; ++e)
         {
-            for (int i = 0; i < width - 1; ++i)
+            for (decltype(width) i = 0; i < width - 1; ++i)
             {
                 nfa.AddTransition(e * width + i, e * width + i + 1, str[i]);
                 if (e < height - 1)
@@ -31,10 +31,8 @@ namespace la
                 }
             }
         }
-        for (int j = 1; j < height; ++j)
-        {
+        for (decltype(height) j = 1; j < height; ++j)
             nfa.AddTransition(j * width - 1, (j + 1) * width - 1, (char)Constants::Insertion);
-        }
         return nfa;
     }
 

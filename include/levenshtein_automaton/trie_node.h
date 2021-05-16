@@ -17,9 +17,9 @@ namespace la
         static constexpr int ALPHABET_SIZE{26};
         trie_node(const char &key, std::string &&value);
         ~trie_node();
-        std::array<trie_node *, ALPHABET_SIZE> children;
-        bool is_end_word;
-        char key;
-        std::string value;
+        std::array<trie_node *, ALPHABET_SIZE> _children;
+        bool _is_end_word;
+        char _key;
+        std::string _value;
     };
 }

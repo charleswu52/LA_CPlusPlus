@@ -3,14 +3,14 @@
 namespace la
 {
     trie_node::trie_node(const char &key, std::string &&value)
-        : key{key},
-        value{std::move(value)},
-        is_end_word{false},
-        children{nullptr} {}
+        : _key{key},
+        _value{std::move(value)},
+        _is_end_word{false},
+        _children{nullptr} {}
 
     trie_node::~trie_node()
     {
-        for (auto &&child : children)
+        for (auto &&child : _children)
             if(child != nullptr)
                 delete child;
     }

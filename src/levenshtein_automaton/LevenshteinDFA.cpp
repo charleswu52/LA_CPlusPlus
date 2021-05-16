@@ -157,9 +157,9 @@ namespace la
     void LevenshteinDFA::Search(trie_tree * trie, int start, trie_node * node, std::list<std::string> &output)
     {
         /**/
-        if (std::find(finalStates->begin(), finalStates->end(), start) != finalStates->end() &&node->is_end_word )
+        if (std::find(finalStates->begin(), finalStates->end(), start) != finalStates->end() &&node->_is_end_word )
         {
-            output.emplace_back(node->value);
+            output.emplace_back(node->_value);
         }
         std::list<char> inputs;
         for (std::list<char>::iterator it = uniqueChars.begin(); it != uniqueChars.end();++it)
@@ -171,11 +171,11 @@ namespace la
                 inputs.emplace_back(*it);
                 for (int i = 0; i < trie_node::ALPHABET_SIZE; ++i)
                 {
-                    if (node->children[i] == NULL)
+                    if (node->_children[i] == NULL)
                         continue;
-                    if (node->children[i]->key == *it)
+                    if (node->_children[i]->_key == *it)
                     {
-                        Search(trie, transTable->at(pair), node->children[i], output);
+                        Search(trie, transTable->at(pair), node->_children[i], output);
                     }
                 }
             }
@@ -186,17 +186,17 @@ namespace la
             for (int i = 0; i < trie_node::ALPHABET_SIZE; ++i)
             {
                 bool found = false;;
-                if (node->children[i] == NULL) continue;
+                if (node->_children[i] == NULL) continue;
                 for (std::list<char>::iterator it = inputs.begin(); it != inputs.end();++it)
                 {
-                    if (*it == node->children[i]->key)
+                    if (*it == node->_children[i]->_key)
                     {
                         found = true;
                     }
                 }
                 if (!found)
                 {
-                    Search(trie, defaultTrans->at(start), node->children[i], output);
+                    Search(trie, defaultTrans->at(start), node->_children[i], output);
                 }
             }
         }

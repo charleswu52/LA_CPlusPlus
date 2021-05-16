@@ -13,7 +13,7 @@ set(LA
     src/levenshtein_automaton/LevenshteinDFA.cpp
 )
 
-add_executable(entry
-    tests/entry.cpp
+add_executable(test
+    tests/test.cpp
     ${LA}
 )

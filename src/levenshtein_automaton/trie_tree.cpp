@@ -12,36 +12,27 @@ namespace la
 
     void trie_tree::insert(std::string &&key)
     {
-        trie_node *pCrawl = _root_node;
-        std::string k = "";
-
-        for (int i = 0; i < key.length(); i++)
+        auto cur_node{_root_node};
+        for (decltype(key.size()) i{0}; i < key.size(); ++i)
         {
-            int index = key[i] - 'a';
-            k += key[i];
-            if (!pCrawl->children[index])
-                pCrawl->children[index] = new trie_node{key[i], key.substr(0, i + 1)};
-
-            pCrawl = pCrawl->children[index];
+            const auto ci{key[i] - 'a'};
+            if (cur_node->_children[ci] == nullptr)
+                cur_node->_children[ci] = new trie_node{key[i], key.substr(0, i + 1)};
+            cur_node = cur_node->_children[ci];
         }
-
-        // mark last node as leaf
-        pCrawl->is_end_word = true;
+        cur_node->_is_end_word = true;
     }
 
     bool trie_tree::search(const std::string &key)
     {
-        trie_node *pCrawl = _root_node;
-
-        for (int i = 0; i < key.length(); i++)
+        auto cur_node{_root_node};
+        for (decltype(key.size()) i{0}; i < key.size(); ++i)
         {
-            int index = key[i] - 'a';
-            if (!pCrawl->children[index])
+            const auto ci{key[i] - 'a'};
+            if (cur_node->_children[ci] == nullptr)
                 return false;
-
-            pCrawl = pCrawl->children[index];
+            cur_node = cur_node->_children[ci];
         }
-
-        return (pCrawl != NULL && pCrawl->is_end_word);
+        return (cur_node != nullptr && cur_node->_is_end_word);
     }
 }

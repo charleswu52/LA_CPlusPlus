@@ -1,3 +1,6 @@
+#include "levenshtein_automaton/Trie.h"
+#include "levenshtein_automaton/LevenshteinNFA.h"
+#include "levenshtein_automaton/LevenshteinDFA.h"
 
 #include <string>
 #include <stdio.h>
@@ -6,14 +9,11 @@
 #include <fstream>
 #include <ctime>
 
-#include "levenshtein_automaton/Trie.h"
-#include "levenshtein_automaton/LevenshteinNFA.h"
-#include "levenshtein_automaton/LevenshteinDFA.h"
-using namespace std;
-int START=0;
+
+int START = 0;
 int main(int argc, char **argv)
 {
-    ifstream file;
+    std::ifstream file;
     Trie trie;
     clock_t timer;
     double duration = 0;
@@ -25,18 +25,18 @@ int main(int argc, char **argv)
     LevenshteinAutomata::LevenshteinDFA *dfa;
     trie.rootNode = getNode(' ', "");
     file.open("../resources/wordList.txt");
-    cout << "Constructing Trie..."<< endl;
+    std::cout << "Constructing Trie..." << std::endl;
     timer = clock();
     /*Load in all resources*/
     while (file.good())
     {
-        file.getline(line,256);
+        file.getline(line, 256);
         trie.Insert(line);
     }
     file.close();
     duration = (clock() - timer) / (double)CLOCKS_PER_SEC;
-    cout << "Constructing Trie Complete! Time: " << duration << " Seconds" << endl;
-    cout << "Levenshteins Distance: " << maxDist << endl;
+    std::cout << "Constructing Trie Complete! Time: " << duration << " Seconds" << std::endl;
+    std::cout << "Levenshteins Distance: " << maxDist << std::endl;
     file.open("../resources/wordsToTest.txt");
     //Search
     while (file.good())
@@ -53,19 +53,16 @@ int main(int argc, char **argv)
         dfa->Search(&trie, dfa->start, trie.rootNode, output);
         duration = (clock() - timer) / (double)CLOCKS_PER_SEC;
         totalTime += duration;
-        cout << "Construction and Search complete! Time: " << duration << " Seconds" << endl;
+        std::cout << "Construction and Search complete! Time: " << duration << " Seconds" << std::endl;
         /*for(auto it = output.begin();it!=output.end();it++){
             cout<<*it<<endl;
         }*/
-        cout << "Number of hits found: " << output.size() << endl;
-
+        std::cout << "Number of hits found: " << output.size() << std::endl;
     }
-    cout << "Total time: " << totalTime << " Seconds.."<<endl;
+    std::cout << "Total time: " << totalTime << " Seconds.." << std::endl;
     file.close();
     //Clean Up
     delete nfa;
     delete dfa;
-//    char c = getchar();
     return 0;
-
 }

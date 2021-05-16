@@ -1,6 +1,8 @@
 #include <stack>
 #include <algorithm>
+#include <set>
 #include "LevenshteinDFA.h"
+#include "Trie.h"
 
 
 namespace LevenshteinAutomata
@@ -10,6 +12,7 @@ namespace LevenshteinAutomata
         finalStates = new std::list<int>();
         defaultTrans = new std::map<int, int>();
         transTable = new std::map<std::pair<int, char>, int>();
+        start = START;
     }
 
 
@@ -84,20 +87,29 @@ namespace LevenshteinAutomata
                     if (it == dfa->defaultTrans->end())
                     {
                         dfa->defaultTrans->emplace(dfaStateNum[aState], dfaStateNum[next]);
+                        tag = true;
                         for(int i=0;i<vec_tmp.size();i++){
-                            if(!(vec_tmp[i].first.first == dfaStateNum[aState]&& vec_tmp[i].second == dfaStateNum[next] && !tag)){
+                            if(!(vec_tmp[i].first.first == dfaStateNum[aState]&& vec_tmp[i].second == dfaStateNum[next])){
                                 dfa->transTable->insert(std::pair<std::pair<int,char>,int>(vec_tmp[i].first,vec_tmp[i].second));
-                                tag=true;
                             }
+
                         }
                     }
                 }
             }
             if(!tag){
+                std::map<int,int> map_tmp;
                 for(int i=0;i<vec_tmp.size();i++){
+                        map_tmp[vec_tmp[i].second]++;
+                }
+                for(int i=0;i<vec_tmp.size();i++){
+                    //printf("%d %d %d\n",vec_tmp[i].second,map_tmp[vec_tmp[i].second],vec_tmp.size());
+                    if(map_tmp[vec_tmp[i].second]==1){
                         dfa->transTable->insert(std::pair<std::pair<int,char>,int>(vec_tmp[i].first,vec_tmp[i].second));
-                        tag=true;
-
+                    }
+                    else{
+                        dfa->defaultTrans->emplace(vec_tmp[i].first.first,vec_tmp[i].second);
+                    }
                 }
             }
         }

@@ -10,6 +10,7 @@
 #include "LevenshteinNFA.h"
 #include "LevenshteinDFA.h"
 using namespace std;
+int START=0;
 int main(int argc, char **argv)
 {
     ifstream file;
@@ -17,11 +18,11 @@ int main(int argc, char **argv)
     clock_t timer;
     double duration = 0;
     double totalTime = 0;
-    int maxDist = 1;
-    LevenshteinAutomata::LevenshteinNFA *nfa;
-    LevenshteinAutomata::LevenshteinDFA *dfa;
+    int maxDist = 2;
     char line[256];
 
+    LevenshteinAutomata::LevenshteinNFA *nfa;
+    LevenshteinAutomata::LevenshteinDFA *dfa;
     trie.rootNode = getNode(' ', "");
     file.open("../wordList.txt");
     cout << "Constructing Trie..."<< endl;
@@ -44,6 +45,7 @@ int main(int argc, char **argv)
         cout << "===================================================================" << endl;
         cout << "Constructing Levenshteins Automata for word: " << line << endl;
         timer = clock();
+
         nfa = LevenshteinAutomata::LevenshteinNFA::ConstructNFA(line, maxDist);
         dfa = LevenshteinAutomata::LevenshteinDFA::SubsetConstruct(nfa);
         list<string> output;
@@ -52,7 +54,11 @@ int main(int argc, char **argv)
         duration = (clock() - timer) / (double)CLOCKS_PER_SEC;
         totalTime += duration;
         cout << "Construction and Search complete! Time: " << duration << " Seconds" << endl;
+        /*for(auto it = output.begin();it!=output.end();it++){
+            cout<<*it<<endl;
+        }*/
         cout << "Number of hits found: " << output.size() << endl;
+
     }
     cout << "Total time: " << totalTime << " Seconds.."<<endl;
     file.close();

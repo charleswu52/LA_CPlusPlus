@@ -10,5 +10,4 @@ class entry {
 
 };
 
-
 #endif //LA_C___ENTRY_H

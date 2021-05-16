@@ -12,7 +12,7 @@ typedef struct TrieNode
     std::string  value;
 }TrieNode;
 TrieNode *getNode(char key, std::string value);
-
+extern int START;
 class Trie
 {
 public:

@@ -24,10 +24,10 @@ namespace la
         std::list<int> Move(const std::list<int> &states, char inp);
         void Show();
 
-        int initialState;
-        std::list<int> finalStates;
-        std::forward_list<char> inputs;
-        std::vector<char> transTable;
-        std::size_t size;
+        int _initialState;
+        std::list<int> _finalStates;
+        std::forward_list<char> _inputs;
+        std::vector<char> _transTable;
+        std::size_t _size;
     };
 }

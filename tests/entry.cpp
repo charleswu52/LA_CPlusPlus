@@ -6,9 +6,9 @@
 #include <fstream>
 #include <ctime>
 
-#include "../Trie.h"
-#include "../LevenshteinNFA.h"
-#include "../LevenshteinDFA.h"
+#include "levenshtein_automaton/Trie.h"
+#include "levenshtein_automaton/LevenshteinNFA.h"
+#include "levenshtein_automaton/LevenshteinDFA.h"
 using namespace std;
 int START=0;
 int main(int argc, char **argv)

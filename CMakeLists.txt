@@ -1,6 +1,9 @@
-cmake_minimum_required(VERSION 3.17)
-project(LA_C__)
+cmake_minimum_required(VERSION 3.0.0)
 
-set(CMAKE_CXX_STANDARD 11)
+project(LA VERSION 0.1.0)
 
-add_executable(LA_C__ tests/entry.cpp LevenshteinDFA.cpp LevenshteinDFA.h LevenshteinNFA.cpp LevenshteinNFA.h Trie.cpp Trie.h)
+set(CMAKE_CXX_STANDARD 20)
+
+include_directories(include)
+
+add_executable(LA_C__ tests/entry.cpp LevenshteinDFA.cpp LevenshteinNFA.cpp Trie.cpp)

@@ -1,6 +1,6 @@
 #include <iostream>
 #include <queue>
-#include "LevenshteinNFA.h"
+#include "levenshtein_automaton/LevenshteinNFA.h"
 
 
 namespace LevenshteinAutomata

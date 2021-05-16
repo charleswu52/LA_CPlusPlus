@@ -1,4 +1,4 @@
-#include "Trie.h"
+#include "levenshtein_automaton/Trie.h"
 
 TrieNode *getNode(char key,std::string value)
 {

@@ -1,9 +1,8 @@
 #include <stack>
 #include <algorithm>
 #include <set>
-#include "LevenshteinDFA.h"
-#include "Trie.h"
-
+#include "levenshtein_automaton/LevenshteinDFA.h"
+#include "levenshtein_automaton/Trie.h"
 
 namespace LevenshteinAutomata
 {

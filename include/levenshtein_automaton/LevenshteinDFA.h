@@ -6,6 +6,7 @@
 
 #include <list>
 #include <map>
+#include <unordered_map>
 
 namespace la
 {
@@ -18,7 +19,7 @@ namespace la
         int _start;
         std::list<int> _finalStates;
         std::map<std::pair<int, char>, int> _transTable;
-        std::map<int, int> _defaultTrans;
+        std::unordered_map<int, int> _defaultTrans;
         std::list<char> _uniqueChars;
         void Search(const trie_tree &trie, int start, trie_node* node, std::list<std::string> &output);
     };

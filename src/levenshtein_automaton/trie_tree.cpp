@@ -2,12 +2,6 @@
 
 namespace la
 {
-    TrieNode::TrieNode(const char &key, std::string &&value)
-        : key{key},
-        value{value},
-        is_end_word{false},
-        children{nullptr} {}
-
     trie_tree::trie_tree()
     {
     }

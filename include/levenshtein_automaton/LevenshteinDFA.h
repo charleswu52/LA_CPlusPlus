@@ -14,7 +14,7 @@ namespace la
     public:
         LevenshteinDFA();
         ~LevenshteinDFA();
-        static LevenshteinDFA* SubsetConstruct(LevenshteinNFA *nfa);
+        static LevenshteinDFA SubsetConstruct(LevenshteinNFA *nfa);
         static std::list<int> EpsilonClosure(LevenshteinNFA *nfa, std::list<int> states);
         int start;
         std::list<int> *finalStates;

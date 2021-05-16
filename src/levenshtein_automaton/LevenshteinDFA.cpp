@@ -21,10 +21,10 @@ namespace la
         free(finalStates);
         free(transTable);
     }
-    LevenshteinDFA * LevenshteinDFA::SubsetConstruct(LevenshteinNFA * nfa)
+    LevenshteinDFA LevenshteinDFA::SubsetConstruct(LevenshteinNFA * nfa)
     {
+        LevenshteinDFA dfa{};
         int num = 0;
-        LevenshteinDFA* dfa = new LevenshteinDFA();
 
         std::list<std::list<int>> markedStates;
         std::list<std::list<int>> unmarkedStates;
@@ -56,7 +56,7 @@ namespace la
                 {
                     if (*it == *it2)
                     {
-                        dfa->finalStates->emplace_back(dfaStateNum[aState]);
+                        dfa.finalStates->emplace_back(dfaStateNum[aState]);
                     }
                 }
             }
@@ -74,22 +74,22 @@ namespace la
                 }
                 if (c != (char)LevenshteinNFA::Constants::Insertion && c != (char)LevenshteinNFA::Constants::Deletion)
                 {
-                    dfa->uniqueChars.emplace_back(c);
+                    dfa.uniqueChars.emplace_back(c);
                     std::pair<int, char> transition = std::make_pair(dfaStateNum[aState],c);
                     vec_tmp.push_back(std::pair<std::pair<int,char>,int>(transition,dfaStateNum[next]));
                    // dfa->transTable->insert(std::pair<std::pair<int,char>,int>(transition,dfaStateNum[next]));
                 }
                 else
                 {
-                    auto it = dfa->defaultTrans->find(dfaStateNum[aState]);
+                    auto it = dfa.defaultTrans->find(dfaStateNum[aState]);
                     //TODO 数字 ascli值太大
-                    if (it == dfa->defaultTrans->end())
+                    if (it == dfa.defaultTrans->end())
                     {
-                        dfa->defaultTrans->emplace(dfaStateNum[aState], dfaStateNum[next]);
+                        dfa.defaultTrans->emplace(dfaStateNum[aState], dfaStateNum[next]);
                         tag = true;
                         for(int i=0;i<vec_tmp.size();i++){
                             if(!(vec_tmp[i].first.first == dfaStateNum[aState]&& vec_tmp[i].second == dfaStateNum[next])){
-                                dfa->transTable->insert(std::pair<std::pair<int,char>,int>(vec_tmp[i].first,vec_tmp[i].second));
+                                dfa.transTable->insert(std::pair<std::pair<int,char>,int>(vec_tmp[i].first,vec_tmp[i].second));
                             }
 
                         }
@@ -104,18 +104,18 @@ namespace la
                 for(int i=0;i<vec_tmp.size();i++){
                     //printf("%d %d %d\n",vec_tmp[i].second,map_tmp[vec_tmp[i].second],vec_tmp.size());
                     if(map_tmp[vec_tmp[i].second]==1){
-                        dfa->transTable->insert(std::pair<std::pair<int,char>,int>(vec_tmp[i].first,vec_tmp[i].second));
+                        dfa.transTable->insert(std::pair<std::pair<int,char>,int>(vec_tmp[i].first,vec_tmp[i].second));
                     }
                     else{
-                        dfa->defaultTrans->emplace(vec_tmp[i].first.first,vec_tmp[i].second);
+                        dfa.defaultTrans->emplace(vec_tmp[i].first.first,vec_tmp[i].second);
                     }
                 }
             }
         }
-        dfa->finalStates->sort();
-        dfa->finalStates->unique();
-        dfa->uniqueChars.sort();
-        dfa->uniqueChars.unique();
+        dfa.finalStates->sort();
+        dfa.finalStates->unique();
+        dfa.uniqueChars.sort();
+        dfa.uniqueChars.unique();
         return dfa;
     }
     std::list<int> LevenshteinDFA::EpsilonClosure(LevenshteinNFA * nfa, std::list<int> states)

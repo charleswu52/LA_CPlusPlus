@@ -106,14 +106,14 @@ namespace la
         dfa._uniqueChars.unique();
         return dfa;
     }
-    std::list<int> LevenshteinDFA::EpsilonClosure(const LevenshteinNFA &nfa, std::list<int> states)
+    std::list<int> LevenshteinDFA::EpsilonClosure(const LevenshteinNFA &nfa, const std::list<int> &states)
     {
         if (states.empty()) return states;
 
         std::stack<int> uncheckedStack;
 
         //Push all states onto stack
-        for (std::list<int>::iterator it = states.begin(); it != states.end();++it)
+        for (auto it = states.begin(); it != states.end();++it)
         {
             uncheckedStack.push(*it);
         }

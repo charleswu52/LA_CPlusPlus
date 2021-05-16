@@ -3,8 +3,7 @@
 namespace la
 {
     trie_tree::trie_tree()
-    {
-    }
+        : _root_node{new trie_node{' ', ""}} {}
 
     trie_tree::~trie_tree()
     {

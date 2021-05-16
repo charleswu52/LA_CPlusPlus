@@ -30,12 +30,11 @@ read_all_lines(const std::string &path)
 int la::START = 0;
 int main(int argc, char *argv[])
 {
-    la::trie_tree tree;
-    tree._root_node = new la::trie_node{' ', ""};
+    /*Load in all resources*/
     auto documents{read_all_lines(documents_path)};
+    la::trie_tree tree{};
     std::cout << "Constructing Trie...\n";
     auto timer{std::chrono::high_resolution_clock::now()};
-    /*Load in all resources*/
     for (auto &&document : documents)
         tree.insert(std::move(document));
     auto duration{std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - timer).count()};

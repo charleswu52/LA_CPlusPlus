@@ -8,17 +8,8 @@ namespace la
         : initialState{_initialstate},
           size{_size},
           finalStates{_finalStates},
-          transTable{new std::vector<char>()}
-    {
-        for (std::size_t i{0}; i < size * size; ++i)
-        {
-            transTable->emplace_back('\0');
-        }
-    }
-    LevenshteinNFA::~LevenshteinNFA()
-    {
-        free(transTable);
-    }
+          transTable(_size * _size, '\0') {}
+
     LevenshteinNFA *LevenshteinNFA::ConstructNFA(std::string str, int maxDist)
     {
         int width = str.length() + 1;
@@ -50,7 +41,7 @@ namespace la
     }
     void LevenshteinNFA::AddTransition(int from, int to, char input)
     {
-        transTable->at((from * size) + to) = input;
+        transTable.at((from * size) + to) = input;
         inputs.emplace_front(input);
         inputs.sort();
         inputs.unique();
@@ -70,7 +61,7 @@ namespace la
         {
             for (int j = 0; j < size; j++)
             {
-                char c = transTable->at((*it * size) + j);
+                char c = transTable.at((*it * size) + j);
                 if (c == inp || c == (char)LevenshteinNFA::Constants::Insertion || c == (char)LevenshteinNFA::Constants::Deletion)
                 {
                     if (needNormalLetter && c == inp)
@@ -85,7 +76,7 @@ namespace la
             tmp.pop();
             for (int j = 0; j < size; j++)
             {
-                char c = transTable->at((now * size) + j);
+                char c = transTable.at((now * size) + j);
                 if (c == (char)LevenshteinNFA::Constants::Deletion)
                 {
                     tmp.push(j);
@@ -110,7 +101,7 @@ namespace la
         {
             for (int to = 0; to < size; ++to)
             {
-                char in = transTable->at((from * size) + to);
+                char in = transTable.at((from * size) + to);
 
                 if (in != (char)LevenshteinNFA::Constants::Dead)
                 {

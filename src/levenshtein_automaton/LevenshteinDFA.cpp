@@ -140,7 +140,7 @@ namespace la
 
             for (int i = 0; i < nfa->size;i++)
             {
-                char input = nfa->transTable->at((t* nfa->size) + i);
+                char input = nfa->transTable.at((t* nfa->size) + i);
                 if (input == (char)la::LevenshteinNFA::Constants::Deletion)
                 {
                     if (std::find(epsilonClosure.begin(), epsilonClosure.end(), startIndex) == epsilonClosure.end())

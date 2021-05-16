@@ -50,7 +50,7 @@ namespace la
             }
             std::vector<std::pair<std::pair<int,char>,int>> vec_tmp;
 //            for each (char c in nfa->inputs)
-            for  (char c : nfa._inputs)
+            for  (const char &c : nfa._inputs)
             {
                 std::list<int> next = EpsilonClosure(nfa, nfa.Move(aState, c));
                 if (next.empty()) continue;

@@ -2,58 +2,49 @@
 #include <queue>
 #include "levenshtein_automaton/LevenshteinNFA.h"
 
-
 namespace la
 {
     LevenshteinNFA::LevenshteinNFA(int _size, int _initialstate, std::list<int> _finalStates)
+        : initialState{_initialstate},
+          size{_size},
+          finalStates{_finalStates},
+          transTable{new std::vector<char>()}
     {
-        initialState = _initialstate;
-        size = _size;
-        finalStates = _finalStates;
-        transTable = new std::vector<char>();
-        for (int i = 0; i < size*size;i++)
+        for (std::size_t i{0}; i < size * size; ++i)
         {
             transTable->emplace_back('\0');
         }
-
-        //transTable = new char*[size];
-        /*
-        for (int i = 0; i < size;++i)
-        {
-            transTable[i] = new char[size];
-            memset(transTable[i], '\0', sizeof(char)*size);
-        }*/
     }
     LevenshteinNFA::~LevenshteinNFA()
     {
         free(transTable);
     }
-    LevenshteinNFA* LevenshteinNFA::ConstructNFA(std::string str, int maxDist)
+    LevenshteinNFA *LevenshteinNFA::ConstructNFA(std::string str, int maxDist)
     {
         int width = str.length() + 1;
         int height = maxDist + 1;
         int size = width * height;
         std::list<int> finalStates;
-        for (int i = 1; i <= height;++i)
+        for (int i = 1; i <= height; ++i)
         {
-            finalStates.push_back(i* width - 1);
+            finalStates.push_back(i * width - 1);
         }
         LevenshteinNFA *nfa = new LevenshteinNFA(size, 0, finalStates);
-        for (int e = 0; e < height;++e)
+        for (int e = 0; e < height; ++e)
         {
-            for (int i = 0; i < width - 1;++i)
+            for (int i = 0; i < width - 1; ++i)
             {
-                nfa->AddTransition(e*width + i, e*width + i + 1, str[i]);
+                nfa->AddTransition(e * width + i, e * width + i + 1, str[i]);
                 if (e < height - 1)
                 {
-                    nfa->AddTransition(e*width + i, (e + 1)*width + i, (char)Constants::Insertion);
-                    nfa->AddTransition(e*width + i, (e + 1)*width + i + 1, (char)Constants::Deletion);
+                    nfa->AddTransition(e * width + i, (e + 1) * width + i, (char)Constants::Insertion);
+                    nfa->AddTransition(e * width + i, (e + 1) * width + i + 1, (char)Constants::Deletion);
                 }
             }
         }
-        for (int j = 1;j < height;++j)
+        for (int j = 1; j < height; ++j)
         {
-            nfa->AddTransition(j*width - 1, (j + 1)* width - 1, (char)Constants::Insertion);
+            nfa->AddTransition(j * width - 1, (j + 1) * width - 1, (char)Constants::Insertion);
         }
         return nfa;
     }
@@ -75,30 +66,35 @@ namespace la
         {
             needNormalLetter = true;
         }
-        for (std::list<int>::iterator it = states.begin(); it != states.end();++it)
+        for (std::list<int>::iterator it = states.begin(); it != states.end(); ++it)
         {
-            for (int j = 0; j < size;j++)
+            for (int j = 0; j < size; j++)
             {
                 char c = transTable->at((*it * size) + j);
-                if (c== inp || c== (char)LevenshteinNFA::Constants::Insertion || c == (char)LevenshteinNFA::Constants::Deletion)
+                if (c == inp || c == (char)LevenshteinNFA::Constants::Insertion || c == (char)LevenshteinNFA::Constants::Deletion)
                 {
-                    if (needNormalLetter && c == inp) findNormalLetter = true;
+                    if (needNormalLetter && c == inp)
+                        findNormalLetter = true;
                     result.push_back(j);
                 }
             }
         }
-        while(!tmp.empty()){
+        while (!tmp.empty())
+        {
             int now = tmp.front();
             tmp.pop();
-            for(int j=0;j<size;j++){
+            for (int j = 0; j < size; j++)
+            {
                 char c = transTable->at((now * size) + j);
-                if (c == (char)LevenshteinNFA::Constants::Deletion){
+                if (c == (char)LevenshteinNFA::Constants::Deletion)
+                {
                     tmp.push(j);
                     result.push_back(j);
                 }
             }
         }
-        if (needNormalLetter && !findNormalLetter) result.clear();
+        if (needNormalLetter && !findNormalLetter)
+            result.clear();
         result.sort();
         result.unique();
         return result;
@@ -108,8 +104,8 @@ namespace la
     {
         printf("This NFA has %d states: 0 - %d\n", size, size - 1);
         printf("The initial state is %d\n", initialState);
-//        printf("The final state is %d\n", finalStates.size());
-//        std::cout<<"The final state is \n"<< finalStates;
+        //        printf("The final state is %d\n", finalStates.size());
+        //        std::cout<<"The final state is \n"<< finalStates;
         for (int from = 0; from < size; ++from)
         {
             for (int to = 0; to < size; ++to)

@@ -89,7 +89,7 @@ namespace la
 
     void LevenshteinNFA::Show()
     {
-        std::cout << "This NFA has " << size << " states: 0 - " << size - 1 << '\n';
+        std::cout << "This NFA has " << size << "size states: 0 - " << size - 1 << '\n';
         std::cout << "The initial state is " << initialState << '\n';
         //std::cout << "The final state is "<< finalStates << '\n';
         for (int from = 0; from < size; ++from)

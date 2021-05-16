@@ -154,7 +154,7 @@ namespace la
         }
         return epsilonClosure;
     }
-    void LevenshteinDFA::Search(trie_tree * trie, int start, trie_node * node, std::list<std::string> &output)
+    void LevenshteinDFA::Search(const trie_tree &trie, int start, trie_node * node, std::list<std::string> &output)
     {
         /**/
         if (std::find(finalStates->begin(), finalStates->end(), start) != finalStates->end() &&node->_is_end_word )

@@ -21,7 +21,7 @@ namespace la
         };
         static LevenshteinNFA ConstructNFA(const std::string &str, int maxDist);
         void AddTransition(int from, int to, char input);
-        std::list<int> Move(const std::list<int> &states, char inp);
+        std::list<int> Move(const std::list<int> &states, char inp) const;
         void Show();
 
         int _initialState;

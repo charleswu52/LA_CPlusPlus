@@ -21,7 +21,7 @@ namespace la
         free(finalStates);
         free(transTable);
     }
-    LevenshteinDFA LevenshteinDFA::SubsetConstruct(LevenshteinNFA * nfa)
+    LevenshteinDFA LevenshteinDFA::SubsetConstruct(const LevenshteinNFA &nfa)
     {
         LevenshteinDFA dfa{};
         int num = 0;
@@ -32,7 +32,7 @@ namespace la
         std::map<std::list<int>, int> dfaStateNum;
 
         std::list<int> nfaInitial;
-        nfaInitial.emplace_back(nfa->_initialState);
+        nfaInitial.emplace_back(nfa._initialState);
 
         std::list<int> first = EpsilonClosure(nfa, nfaInitial);
         unmarkedStates.emplace_back(first);
@@ -52,7 +52,7 @@ namespace la
             //Kinda killer, should redo
             for (std::list<int>::iterator it = aState.begin(); it != aState.end();++it)
             {
-                for (std::list<int>::iterator it2 = nfa->_finalStates.begin(); it2 != nfa->_finalStates.end();++it2)
+                for (auto it2 = nfa._finalStates.begin(); it2 != nfa._finalStates.end();++it2)
                 {
                     if (*it == *it2)
                     {
@@ -62,9 +62,9 @@ namespace la
             }
             std::vector<std::pair<std::pair<int,char>,int>> vec_tmp;
 //            for each (char c in nfa->inputs)
-            for  (char c : nfa->_inputs)
+            for  (char c : nfa._inputs)
             {
-                std::list<int> next = EpsilonClosure(nfa, nfa->Move(aState, c));
+                std::list<int> next = EpsilonClosure(nfa, nfa.Move(aState, c));
                 if (next.empty()) continue;
                 if (std::find(unmarkedStates.begin(), unmarkedStates.end(), next) == unmarkedStates.end() &&
                     std::find(markedStates.begin(), markedStates.end(), next) == markedStates.end())
@@ -118,7 +118,7 @@ namespace la
         dfa.uniqueChars.unique();
         return dfa;
     }
-    std::list<int> LevenshteinDFA::EpsilonClosure(LevenshteinNFA * nfa, std::list<int> states)
+    std::list<int> LevenshteinDFA::EpsilonClosure(const LevenshteinNFA &nfa, std::list<int> states)
     {
         if (states.empty()) return states;
 
@@ -138,9 +138,9 @@ namespace la
             uncheckedStack.pop();
             int startIndex = 0;
 
-            for (int i = 0; i < nfa->_size;i++)
+            for (int i = 0; i < nfa._size;i++)
             {
-                char input = nfa->_transTable.at((t* nfa->_size) + i);
+                char input = nfa._transTable.at((t* nfa._size) + i);
                 if (input == (char)la::LevenshteinNFA::Constants::Deletion)
                 {
                     if (std::find(epsilonClosure.begin(), epsilonClosure.end(), startIndex) == epsilonClosure.end())

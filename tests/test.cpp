@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
         timer = std::chrono::high_resolution_clock::now();
 
         auto nfa{la::LevenshteinNFA::ConstructNFA(query, maxDist)};
-        auto dfa{la::LevenshteinDFA::SubsetConstruct(&nfa)};
+        auto dfa{la::LevenshteinDFA::SubsetConstruct(nfa)};
         std::list<std::string> output;
         std::cout << "Searching...\n";
         dfa.Search(tree, dfa.start, tree._root_node, output);

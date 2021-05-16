@@ -44,7 +44,7 @@ namespace la
         _inputs.unique();
     }
 
-    std::list<int> LevenshteinNFA::Move(const std::list<int> &states, char inp)
+    std::list<int> LevenshteinNFA::Move(const std::list<int> &states, char inp) const
     {
         std::list<int> result;
         std::queue<int> tmp;

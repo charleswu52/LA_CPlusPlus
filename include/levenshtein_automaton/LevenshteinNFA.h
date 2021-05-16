@@ -19,7 +19,7 @@ namespace la
         LevenshteinNFA(std::size_t size, int state, std::list<int> &&finalStates);
         ~LevenshteinNFA() = default;
 
-        enum Constants
+        enum class Constants:char
         {
             Deletion = '|',
             Dead = '\0',

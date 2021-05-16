@@ -6,6 +6,11 @@ namespace la
     {
     }
 
+    trie_tree::~trie_tree()
+    {
+        delete rootNode;
+    }
+
     void trie_tree::insert(std::string &&key)
     {
         trie_node *pCrawl = rootNode;

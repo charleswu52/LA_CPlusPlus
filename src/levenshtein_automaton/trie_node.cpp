@@ -2,13 +2,13 @@
 
 namespace la
 {
-    TrieNode::TrieNode(const char &key, std::string &&value)
+    trie_node::trie_node(const char &key, std::string &&value)
         : key{key},
         value{std::move(value)},
         is_end_word{false},
         children{nullptr} {}
 
-    TrieNode::~TrieNode()
+    trie_node::~trie_node()
     {
         for (auto &&child : children)
             if(child != nullptr)

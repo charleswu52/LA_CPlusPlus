@@ -154,7 +154,7 @@ namespace la
         }
         return epsilonClosure;
     }
-    void LevenshteinDFA::Search(trie_tree * trie, int start, TrieNode * node, std::list<std::string> &output)
+    void LevenshteinDFA::Search(trie_tree * trie, int start, trie_node * node, std::list<std::string> &output)
     {
         /**/
         if (std::find(finalStates->begin(), finalStates->end(), start) != finalStates->end() &&node->is_end_word )
@@ -169,7 +169,7 @@ namespace la
             if (it2 != transTable->end())
             {
                 inputs.emplace_back(*it);
-                for (int i = 0; i < ALPHABET_SIZE;i++)
+                for (int i = 0; i < trie_node::ALPHABET_SIZE; ++i)
                 {
                     if (node->children[i] == NULL)
                         continue;
@@ -183,7 +183,7 @@ namespace la
         auto it = defaultTrans->find(start);
         if (it != defaultTrans->end())
         {
-            for (int i = 0; i < ALPHABET_SIZE;i++)
+            for (int i = 0; i < trie_node::ALPHABET_SIZE; ++i)
             {
                 bool found = false;;
                 if (node->children[i] == NULL) continue;

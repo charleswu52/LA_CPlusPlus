@@ -31,7 +31,7 @@ int la::START = 0;
 int main(int argc, char *argv[])
 {
     la::trie_tree tree;
-    tree.rootNode = new la::TrieNode{' ', ""};
+    tree.rootNode = new la::trie_node{' ', ""};
     auto documents{read_all_lines(documents_path)};
     std::cout << "Constructing Trie...\n";
     auto timer{std::chrono::high_resolution_clock::now()};

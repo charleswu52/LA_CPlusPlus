@@ -13,7 +13,7 @@ namespace la
     {
     public:
         trie_tree();
-        TrieNode *rootNode;
+        trie_node *rootNode;
         void insert(std::string &&key);
         bool Search(std::string key);
     };

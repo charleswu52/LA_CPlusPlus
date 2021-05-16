@@ -5,19 +5,19 @@
 
 namespace la
 {
-    static constexpr int ALPHABET_SIZE{26};
-
-    class TrieNode
+    class trie_node
     {
     private:
-        TrieNode(const TrieNode &) = delete;
-        TrieNode(TrieNode &&) = delete;
-        TrieNode &operator=(const TrieNode &) = delete;
-        TrieNode &operator=(TrieNode &&) = delete;
+        trie_node(const trie_node &) = delete;
+        trie_node(trie_node &&) = delete;
+        trie_node &operator=(const trie_node &) = delete;
+        trie_node &operator=(trie_node &&) = delete;
+
     public:
-        TrieNode(const char &key, std::string &&value);
-        ~TrieNode();
-        std::array<TrieNode *, ALPHABET_SIZE> children;
+        static constexpr int ALPHABET_SIZE{26};
+        trie_node(const char &key, std::string &&value);
+        ~trie_node();
+        std::array<trie_node *, ALPHABET_SIZE> children;
         bool is_end_word;
         char key;
         std::string value;

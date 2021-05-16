@@ -21,6 +21,6 @@ namespace la
         std::map<std::pair<int, char>, int> *transTable;
         std::map<int, int> *defaultTrans;
         std::list<char> uniqueChars;
-        void Search(trie_tree *trie, int start, TrieNode* node, std::list<std::string> &output);
+        void Search(trie_tree *trie, int start, trie_node* node, std::list<std::string> &output);
     };
 }

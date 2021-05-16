@@ -8,7 +8,7 @@ namespace la
 
     void trie_tree::insert(std::string &&key)
     {
-        TrieNode *pCrawl = rootNode;
+        trie_node *pCrawl = rootNode;
         std::string k = "";
 
         for (int i = 0; i < key.length(); i++)
@@ -16,7 +16,7 @@ namespace la
             int index = key[i] - 'a';
             k += key[i];
             if (!pCrawl->children[index])
-                pCrawl->children[index] = new TrieNode{key[i], key.substr(0, i + 1)};
+                pCrawl->children[index] = new trie_node{key[i], key.substr(0, i + 1)};
 
             pCrawl = pCrawl->children[index];
         }
@@ -27,7 +27,7 @@ namespace la
 
     bool trie_tree::Search(std::string key)
     {
-        struct TrieNode *pCrawl = rootNode;
+        struct trie_node *pCrawl = rootNode;
 
         for (int i = 0; i < key.length(); i++)
         {

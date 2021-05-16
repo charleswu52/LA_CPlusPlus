@@ -20,8 +20,8 @@ namespace la
     public:
         trie_tree();
         ~trie_tree();
-        trie_node *rootNode;
+        trie_node *_root_node;
         void insert(std::string &&key);
-        bool Search(std::string key);
+        bool search(const std::string &key);
     };
 }

@@ -8,12 +8,12 @@ namespace la
 
     trie_tree::~trie_tree()
     {
-        delete rootNode;
+        delete _root_node;
     }
 
     void trie_tree::insert(std::string &&key)
     {
-        trie_node *pCrawl = rootNode;
+        trie_node *pCrawl = _root_node;
         std::string k = "";
 
         for (int i = 0; i < key.length(); i++)
@@ -30,9 +30,9 @@ namespace la
         pCrawl->is_end_word = true;
     }
 
-    bool trie_tree::Search(std::string key)
+    bool trie_tree::search(const std::string &key)
     {
-        struct trie_node *pCrawl = rootNode;
+        trie_node *pCrawl = _root_node;
 
         for (int i = 0; i < key.length(); i++)
         {

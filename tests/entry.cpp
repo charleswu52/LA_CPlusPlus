@@ -31,7 +31,7 @@ int la::START = 0;
 int main(int argc, char *argv[])
 {
     la::trie_tree tree;
-    tree.rootNode = new la::trie_node{' ', ""};
+    tree._root_node = new la::trie_node{' ', ""};
     auto documents{read_all_lines(documents_path)};
     std::cout << "Constructing Trie...\n";
     auto timer{std::chrono::high_resolution_clock::now()};
@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
         std::unique_ptr<la::LevenshteinDFA> dfa{la::LevenshteinDFA::SubsetConstruct(nfa.get())};
         std::list<std::string> output;
         std::cout << "Searching...\n";
-        dfa->Search(&tree, dfa->start, tree.rootNode, output);
+        dfa->Search(&tree, dfa->start, tree._root_node, output);
         duration = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - timer).count();
         totalTime += duration;
         std::cout << "Construction and Search complete! Time: " << duration << " Microseconds\n";

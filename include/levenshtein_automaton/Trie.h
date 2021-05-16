@@ -1,20 +1,21 @@
 #pragma once
 
 #include <string>
+#include <array>
 
 namespace la
 {
-    const int ALPHABET_SIZE = 26;
+    static constexpr int ALPHABET_SIZE{26};
 
-    typedef struct TrieNode
+    class TrieNode
     {
-        struct TrieNode *children[ALPHABET_SIZE];
-        bool isEndWord;
+    public:
+        TrieNode(const char &key, std::string &&value);
+        std::array<TrieNode *, ALPHABET_SIZE> children;
+        bool is_end_word;
         char key;
         std::string value;
-    } TrieNode;
-
-    TrieNode *getNode(char key, std::string value);
+    };
 
     extern int START;
 
@@ -23,7 +24,7 @@ namespace la
     public:
         Trie();
         TrieNode *rootNode;
-        void Insert(std::string key);
+        void insert(std::string &&key);
         bool Search(std::string key);
     };
 }

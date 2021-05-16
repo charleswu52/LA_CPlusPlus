@@ -2,27 +2,19 @@
 
 namespace la
 {
-    TrieNode *getNode(char key, std::string value)
-    {
-        TrieNode *pNode = new TrieNode;
-
-        pNode->key = key;
-        pNode->value = value;
-        pNode->isEndWord = false;
-
-        for (int i = 0; i < ALPHABET_SIZE; i++)
-            pNode->children[i] = NULL;
-
-        return pNode;
-    }
+    TrieNode::TrieNode(const char &key, std::string &&value)
+        : key{key},
+        value{value},
+        is_end_word{false},
+        children{nullptr} {}
 
     Trie::Trie()
     {
     }
 
-    void Trie::Insert(std::string key)
+    void Trie::insert(std::string &&key)
     {
-        struct TrieNode *pCrawl = rootNode;
+        TrieNode *pCrawl = rootNode;
         std::string k = "";
 
         for (int i = 0; i < key.length(); i++)
@@ -30,13 +22,13 @@ namespace la
             int index = key[i] - 'a';
             k += key[i];
             if (!pCrawl->children[index])
-                pCrawl->children[index] = getNode(key[i], k);
+                pCrawl->children[index] = new TrieNode{key[i], key.substr(0, i + 1)};
 
             pCrawl = pCrawl->children[index];
         }
 
         // mark last node as leaf
-        pCrawl->isEndWord = true;
+        pCrawl->is_end_word = true;
     }
 
     bool Trie::Search(std::string key)
@@ -52,6 +44,6 @@ namespace la
             pCrawl = pCrawl->children[index];
         }
 
-        return (pCrawl != NULL && pCrawl->isEndWord);
+        return (pCrawl != NULL && pCrawl->is_end_word);
     }
 }

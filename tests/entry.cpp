@@ -30,13 +30,13 @@ int la::START = 0;
 int main(int argc, char *argv[])
 {
     la::Trie trie;
-    trie.rootNode = la::getNode(' ', "");
+    trie.rootNode = new la::TrieNode{' ', ""};
     auto documents{read_all_lines(documents_path)};
     std::cout << "Constructing Trie...\n";
     auto timer{std::chrono::high_resolution_clock::now()};
     /*Load in all resources*/
     for (auto &&document : documents)
-        trie.Insert(document);
+        trie.insert(std::move(document));
     auto duration{std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - timer).count()};
     std::cout << "Constructing Trie Complete! Time: " << duration << " Microseconds\n";
 

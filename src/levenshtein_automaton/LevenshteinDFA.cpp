@@ -157,7 +157,7 @@ namespace la
     void LevenshteinDFA::Search(Trie * trie, int start, TrieNode * node, std::list<std::string> &output)
     {
         /**/
-        if (std::find(finalStates->begin(), finalStates->end(), start) != finalStates->end() &&node->isEndWord )
+        if (std::find(finalStates->begin(), finalStates->end(), start) != finalStates->end() &&node->is_end_word )
         {
             output.emplace_back(node->value);
         }

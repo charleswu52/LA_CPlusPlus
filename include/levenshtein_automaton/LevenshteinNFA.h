@@ -4,20 +4,14 @@
 #include <vector>
 #include <list>
 #include <forward_list>
+#include <iostream>
 
 namespace la
 {
     class LevenshteinNFA
     {
-    private:
-        //LevenshteinNFA(const LevenshteinNFA &) = delete;
-        //LevenshteinNFA(LevenshteinNFA &&) = delete;
-        //LevenshteinNFA &operator=(const LevenshteinNFA &) = delete;
-        //LevenshteinNFA &operator=(LevenshteinNFA &&) = delete;
-
     public:
         LevenshteinNFA(std::size_t size, int state, std::list<int> &&finalStates);
-        ~LevenshteinNFA() = default;
 
         enum class Constants:char
         {
@@ -27,7 +21,7 @@ namespace la
         };
         static LevenshteinNFA ConstructNFA(const std::string &str, int maxDist);
         void AddTransition(int from, int to, char input);
-        std::list<int> Move(std::list<int> states, char inp);
+        std::list<int> Move(const std::list<int> &states, char inp);
         void Show();
 
         int initialState;

@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
         std::cout << "Constructing Levenshteins Automata for word: " << query << '\n';
         timer = std::chrono::high_resolution_clock::now();
 
-        la::LevenshteinNFA nfa{la::LevenshteinNFA::ConstructNFA(query, maxDist)};
+        auto nfa{la::LevenshteinNFA::ConstructNFA(query, maxDist)};
         std::unique_ptr<la::LevenshteinDFA> dfa{la::LevenshteinDFA::SubsetConstruct(&nfa)};
         std::list<std::string> output;
         std::cout << "Searching...\n";

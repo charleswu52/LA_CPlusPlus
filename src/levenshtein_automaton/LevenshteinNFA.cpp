@@ -44,7 +44,7 @@ namespace la
         inputs.unique();
     }
 
-    std::list<int> LevenshteinNFA::Move(std::list<int> states, char inp)
+    std::list<int> LevenshteinNFA::Move(const std::list<int> &states, char inp)
     {
         std::list<int> result;
         std::queue<int> tmp;
@@ -52,12 +52,10 @@ namespace la
         bool findNormalLetter = false;
         if (inp != (char)LevenshteinNFA::Constants::Insertion &&
             inp != (char)LevenshteinNFA::Constants::Deletion)
-        {
             needNormalLetter = true;
-        }
-        for (std::list<int>::iterator it = states.begin(); it != states.end(); ++it)
+        for (auto it = std::begin(states); it != std::end(states); ++it)
         {
-            for (int j = 0; j < size; j++)
+            for (decltype(size) j = 0; j < size; j++)
             {
                 char c = transTable.at((*it * size) + j);
                 if (c == inp || c == (char)LevenshteinNFA::Constants::Insertion || c == (char)LevenshteinNFA::Constants::Deletion)

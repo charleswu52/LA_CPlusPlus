@@ -4,7 +4,7 @@
 #include "levenshtein_automaton/LevenshteinDFA.h"
 #include "levenshtein_automaton/Trie.h"
 
-namespace LevenshteinAutomata
+namespace la
 {
     LevenshteinDFA::LevenshteinDFA()
     {
@@ -141,7 +141,7 @@ namespace LevenshteinAutomata
             for (int i = 0; i < nfa->size;i++)
             {
                 char input = nfa->transTable->at((t* nfa->size) + i);
-                if (input == (char)LevenshteinAutomata::LevenshteinNFA::Constants::Deletion)
+                if (input == (char)la::LevenshteinNFA::Constants::Deletion)
                 {
                     if (std::find(epsilonClosure.begin(), epsilonClosure.end(), startIndex) == epsilonClosure.end())
                     {

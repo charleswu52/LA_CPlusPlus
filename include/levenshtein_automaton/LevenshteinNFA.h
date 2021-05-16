@@ -5,7 +5,7 @@
 #include <list>
 #include <forward_list>
 
-namespace LevenshteinAutomata
+namespace la
 {
 
     class LevenshteinNFA

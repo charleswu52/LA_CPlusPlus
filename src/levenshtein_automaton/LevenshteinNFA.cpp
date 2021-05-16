@@ -3,7 +3,7 @@
 #include "levenshtein_automaton/LevenshteinNFA.h"
 
 
-namespace LevenshteinAutomata
+namespace la
 {
     LevenshteinNFA::LevenshteinNFA(int _size, int _initialstate, std::list<int> _finalStates)
     {

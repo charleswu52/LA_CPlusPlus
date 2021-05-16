@@ -6,7 +6,7 @@
 #include <list>
 #include <map>
 
-namespace LevenshteinAutomata
+namespace la
 {
     class LevenshteinDFA
     {

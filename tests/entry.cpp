@@ -10,20 +10,20 @@
 #include <ctime>
 
 
-int START = 0;
+int la::START = 0;
 int main(int argc, char **argv)
 {
     std::ifstream file;
-    Trie trie;
+    la::Trie trie;
     clock_t timer;
     double duration = 0;
     double totalTime = 0;
     int maxDist = 2;
     char line[256];
 
-    LevenshteinAutomata::LevenshteinNFA *nfa;
-    LevenshteinAutomata::LevenshteinDFA *dfa;
-    trie.rootNode = getNode(' ', "");
+    la::LevenshteinNFA *nfa;
+    la::LevenshteinDFA *dfa;
+    trie.rootNode = la::getNode(' ', "");
     file.open("../resources/wordList.txt");
     std::cout << "Constructing Trie..." << std::endl;
     timer = clock();
@@ -46,8 +46,8 @@ int main(int argc, char **argv)
         std::cout << "Constructing Levenshteins Automata for word: " << line << std::endl;
         timer = clock();
 
-        nfa = LevenshteinAutomata::LevenshteinNFA::ConstructNFA(line, maxDist);
-        dfa = LevenshteinAutomata::LevenshteinDFA::SubsetConstruct(nfa);
+        nfa = la::LevenshteinNFA::ConstructNFA(line, maxDist);
+        dfa = la::LevenshteinDFA::SubsetConstruct(nfa);
         std::list<std::string> output;
         std::cout << "Searching..." << std::endl;
         dfa->Search(&trie, dfa->start, trie.rootNode, output);

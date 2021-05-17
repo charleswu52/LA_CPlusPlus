@@ -1,5 +1,5 @@
 #include "levenshtein_automaton/trie_node.h"
-
+#include <cassert>
 namespace la
 {
     trie_node::trie_node(const char &key, std::string &&value)

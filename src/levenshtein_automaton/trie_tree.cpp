@@ -2,8 +2,11 @@
 
 namespace la
 {
+    trie_tree::trie_tree(trie_node *root_node)
+        : _root_node{root_node} {}
+
     trie_tree::trie_tree()
-        : _root_node{new trie_node{' ', ""}} {}
+        : trie_tree{new trie_node{' ', ""}} {}
 
     trie_tree::~trie_tree()
     {

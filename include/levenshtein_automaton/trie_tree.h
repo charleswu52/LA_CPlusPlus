@@ -18,6 +18,7 @@ namespace la
         trie_tree &operator=(trie_tree &&) = delete;
 
     public:
+        trie_tree(trie_node *root_node);
         trie_tree();
         ~trie_tree();
         trie_node *_root_node;

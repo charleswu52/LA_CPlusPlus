@@ -10,4 +10,4 @@ aux_source_directory(src/levenshtein_automaton LEVENSHTEIN_AUTOMATON)
 
 add_executable(test tests/test.cpp ${LEVENSHTEIN_AUTOMATON})
 
-add_library(levenshtein_automaton ${LEVENSHTEIN_AUTOMATON})
+# add_library(levenshtein_automaton ${LEVENSHTEIN_AUTOMATON})
